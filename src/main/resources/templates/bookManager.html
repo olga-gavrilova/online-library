@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div style="text-align: center">
+    <h1 > Book Manager</h1>
+    <div th:if="${welcomeMessage}">
+        <div th:text="${welcomeMessage}"></div>
+    </div>
+</div>
+</body>
+</html>
