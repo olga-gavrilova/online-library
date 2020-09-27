@@ -6,21 +6,23 @@
 </head>
 <body>
 <div style="text-align: center">
-    <h1 > Login</h1>
+    <h1 th:text="#{login}"> Login</h1>
+
     <div th:if="${errorMessage}">
         <div th:text="${errorMessage}"></div>
     </div>
+
     <form th:action="@{/login}" method="post">
-        <i><label for="login">Username</label>:
-            <input type="text" id="login" name="login" autofocus="autofocus" /> </i>
+        <i><label for="username" th:text="#{user.name}"></label>:
+            <input type="text" id="username" name="username" autofocus="autofocus" /> </i>
         <br />
-        <i><label for="password">Password</label>:
+        <i><label for="password" th:text="#{user.pass}">Password</label>:
             <input type="password" id="password" name="password" /> </i>
         <br /><br>
-        <input type="submit" value="Log in" />
+        <input type="submit" th:value="#{login}" />
     </form>
     <form th:action="@{/registration}" method="get">
-        <button type="submit">Register</button>
+        <button type="submit" th:text="#{register}"></button>
     </form>
 </div>
 </body>

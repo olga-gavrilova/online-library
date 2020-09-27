@@ -6,24 +6,25 @@
 </head>
 <body>
 <div style="text-align: center">
-    <h1 > Registration Form</h1>
+    <h1  th:text="#{register}"> </h1>
+
     <div th:if="${errorMessage}">
         <div th:text="${errorMessage}"></div>
     </div>
 
     <br>
     <form th:action="@{/registration}" method="post">
-        <i><label for="login">Username</label>:
+        <i><label for="login" th:text="#{user.name}"></label>:
             <input type="text" id="login" name="login" autofocus="autofocus" /> </i>
         <br />
-        <i><label for="password">Password</label>:
+        <i><label for="password" th:text="#{user.pass}"></label>:
             <input type="password" id="password" name="password" /> </i>
         <br /><br>
         <select name="role">
-            <option value="READER">Reader</option>
-            <option value="ADMIN">Admin</option>
+            <option value="READER" th:text="#{reader}"></option>
+            <option value="ADMIN" th:text="#{admin}"></option>
         </select>
-        <input type="submit" value="Create new account" />
+        <input type="submit" th:value="#{create.account}" />
     </form>
 </div>
 </body>
