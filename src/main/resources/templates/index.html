@@ -17,23 +17,57 @@
 </script>
 
 <body>
-<div style="text-align: center">
-    <span th:text="#{change}"></span>:
-    <select id="locales" th:onchange="changeLocale()">
-        <option value=""></option>
-        <option value="en" th:text="#{lang.en}"></option>
-        <option value="ua" th:text="#{lang.ua}"></option>
-    </select>
+<div>
+    <div style="float: left; padding-top: 1px">
+        <span th:text="#{change}" style="padding-left: 20px;"></span>:
+        <select id="locales" th:onchange="changeLocale()">
+            <option value=""></option>
+            <option value="en" th:text="#{lang.en}"></option>
+            <option value="ua" th:text="#{lang.ua}"></option>
+        </select>
+    </div>
 
-    <h1 th:text="#{welcome}"></h1>
+    <div style="float: left; padding-left: 10px">
+        <form th:action="@{/registration}" method="get">
+            <button type="submit" th:text="#{register}"></button>
+        </form>
+    </div>
 
-    <form th:action="@{/registration}" method="get">
-        <button type="submit" th:text="#{register}"></button>
-    </form>
+    <div style="float: left; padding-left: 10px">
+        <form th:action="@{/login}" method="get">
+            <button type="submit" th:text="#{login}">Log In</button>
+        </form>
+    </div>
 
-    <form th:action="@{/login}" method="get">
-        <button type="submit" th:text="#{login}">Log In</button>
-    </form>
+    <br>
+    <div style="text-align: center">
+        <h1 th:text="#{welcome}"></h1>
+    </div>
+
+
+    <div style="text-align: center">
+        <table style=" margin-left: auto; margin-right: auto;">
+            <thead>
+            <tr>
+                <th th:text ="#{title}">  </th>
+                <th th:text="#{author}" >  </th>
+                <th th:text ="#{publisher}">  </th>
+                <th th:text="#{year.publ}" >  </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${books.isEmpty()}">
+                <td colspan="2" th:text="#{no.such.book}">  </td>
+            </tr>
+            <tr th:each="book : ${books}">
+                <td><span th:text="${book.getTitle()}" >  </span></td>
+                <td><span th:text="${book.getAuthor()}" >  </span></td>
+                <td><span th:text="${book.getPublisher()}" >  </span></td>
+                <td><span th:text="${book.getYearOfPublishing()}" >  </span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

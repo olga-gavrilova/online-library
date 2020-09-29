@@ -1,9 +1,7 @@
 package com.gmail.olyagavrilova.onlinelibrary.controller;
 
+import com.gmail.olyagavrilova.onlinelibrary.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,8 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final JdbcUserDetailsManager userDetailsManager;
-    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
     @GetMapping("/login")
     public ModelAndView getLoginPage() {
@@ -34,22 +31,18 @@ public class LoginController {
     }
 
     @PostMapping("/registration")
-    public ModelAndView login(@RequestParam String login, @RequestParam String password, @RequestParam String role) {
+    public ModelAndView login(@RequestParam String username, @RequestParam String password, @RequestParam String role) {
 
-        if (StringUtils.isEmpty(login) || StringUtils.isEmpty(password) || StringUtils.isEmpty(role)) {
+        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password) || StringUtils.isEmpty(role)) {
             ModelAndView modelAndView = new ModelAndView("registrationForm");
             modelAndView.getModelMap().addAttribute("errorMessage", "Please, fill the registration form!");
             return modelAndView;
         }
 
-        userDetailsManager.createUser(User.builder()
-                .username(login)
-                .password(passwordEncoder.encode(password))
-                .roles(role.toUpperCase())
-                .build());
+        userService.createUser(username, password, role);
 
         ModelAndView modelAndView = new ModelAndView("bookManager");
-        modelAndView.getModelMap().addAttribute("welcomeMessage", "Welcome to Online Library, " + login + "!");
+        modelAndView.getModelMap().addAttribute("welcomeMessage", "Welcome to Online Library, " + username + "!");
         return modelAndView;
     }
 }
