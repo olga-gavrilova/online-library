@@ -13,6 +13,8 @@ import java.util.Locale;
 @Configuration
 public class LocaleConfig implements WebMvcConfigurer {
 
+    private static final String LANG_URL_PARAMETER = "lang";
+
     @Bean
     public LocaleResolver localeResolver(){
         SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
@@ -23,7 +25,7 @@ public class LocaleConfig implements WebMvcConfigurer {
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor(){
         LocaleChangeInterceptor localeChangeInterceptor= new LocaleChangeInterceptor();
-        localeChangeInterceptor.setParamName("lang");
+        localeChangeInterceptor.setParamName(LANG_URL_PARAMETER);
         return localeChangeInterceptor;
     }
 

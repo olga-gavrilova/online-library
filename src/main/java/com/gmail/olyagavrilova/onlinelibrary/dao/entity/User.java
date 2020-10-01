@@ -11,17 +11,18 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
-@ToString(exclude = "authority")
-@EqualsAndHashCode(exclude = "authority")
+@ToString(exclude = {"authority", "subscriptions"})
+@EqualsAndHashCode(exclude = {"authority", "subscriptions"})
 @NoArgsConstructor
 @Entity(name = "users")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String username;
 
@@ -31,6 +32,9 @@ public class User implements UserDetails {
 
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Authority authority;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Subscription> subscriptions;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

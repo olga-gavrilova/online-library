@@ -17,7 +17,7 @@ public class Authority implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")

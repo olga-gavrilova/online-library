@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final String INDEX_PAGE = "/";
+
     private UserService userService;
 
     @Override
@@ -25,16 +27,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers(INDEX_PAGE).permitAll()
                 .antMatchers("/registration/**").permitAll()
-                .antMatchers("/bookManager/**").hasRole("READER")
+                .antMatchers("/books/**").hasRole("READER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 .and()
                     .httpBasic()
                 .and()
                     .formLogin()
                         .loginPage("/login")
-                        .defaultSuccessUrl("/books", true)
+                        .defaultSuccessUrl("/loggedIn", true)
+                        .permitAll()
+                .and()
+                    .logout()
+                        .logoutSuccessUrl(INDEX_PAGE)
                         .permitAll()
                 .and()
                     .csrf().disable();

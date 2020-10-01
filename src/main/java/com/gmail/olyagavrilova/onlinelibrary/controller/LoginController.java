@@ -2,6 +2,8 @@ package com.gmail.olyagavrilova.onlinelibrary.controller;
 
 import com.gmail.olyagavrilova.onlinelibrary.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,11 +22,6 @@ public class LoginController {
         return new ModelAndView("loginForm");
     }
 
-    @GetMapping("/bookManager")
-    public ModelAndView getBookManager() {
-        return new ModelAndView("bookManager");
-    }
-
     @GetMapping("/registration")
     public ModelAndView getRegisterPage() {
         return new ModelAndView("registrationForm");
@@ -35,14 +32,20 @@ public class LoginController {
 
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password) || StringUtils.isEmpty(role)) {
             ModelAndView modelAndView = new ModelAndView("registrationForm");
-            modelAndView.getModelMap().addAttribute("errorMessage", "Please, fill the registration form!");
+            modelAndView.getModelMap().addAttribute("errorMessage", "fill.form");
             return modelAndView;
         }
 
         userService.createUser(username, password, role);
 
-        ModelAndView modelAndView = new ModelAndView("bookManager");
-        modelAndView.getModelMap().addAttribute("welcomeMessage", "Welcome to Online Library, " + username + "!");
+        ModelAndView modelAndView;
+
+        if (role.equalsIgnoreCase("reader")) {
+            modelAndView = new ModelAndView("redirect:/books");
+        } else {
+            modelAndView = new ModelAndView("redirect:/users");
+        }
+
         return modelAndView;
     }
 }
