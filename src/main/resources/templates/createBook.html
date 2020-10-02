@@ -21,6 +21,8 @@
         <h1 th:text="#{book}" style="padding-right: 59px;"></h1>
     </div>
     <br>
+
+    <div style="text-align: center">
     <thead>
     <tr>
         <th th:text="#{title}"></th>
@@ -30,10 +32,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${books.isEmpty()}">
-        <td colspan="2" th:text="#{no.such.book}"></td>
-    </tr>
-    <tr th:each="book : ${books}">
+
+    <tr th:each="book, iStat : ${bookPage.content}">
         <td><span th:text="${book.getTitle()}" >  </span></td>
         <td><span th:text="${book.getAuthor()}" >  </span></td>
         <td><span th:text="${book.getPublisher()}">   </span></td>
@@ -41,8 +41,16 @@
         <td><span th:hidden="true" th:text="${book.getId()}">  </span></td>
     </tr>
 
+
     </tbody>
+    </div>
 </table>
+    <div th:if="${bookPage.totalPages > 0}" class="pagination"
+         th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/catalog(size=${bookPage.size}, page=${pageNumber})}"
+           th:text=${pageNumber}
+           th:class="${pageNumber==bookPage.number + 1} ? active"></a>
+    </div>
 
 
 </div>

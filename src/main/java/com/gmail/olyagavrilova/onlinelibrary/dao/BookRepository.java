@@ -1,12 +1,17 @@
 package com.gmail.olyagavrilova.onlinelibrary.dao;
 
 import com.gmail.olyagavrilova.onlinelibrary.dao.entity.Book;
+import com.gmail.olyagavrilova.onlinelibrary.dao.entity.Subscription;
+import org.springframework.data.domain.Page;
 import org.springframework.data.repository.CrudRepository;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookRepository extends CrudRepository<Book, Long> {
+public interface BookRepository  extends CrudRepository<Book, Long>  {
+
+
 
     List<Book> findAll();
 

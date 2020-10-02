@@ -1,12 +1,21 @@
 package com.gmail.olyagavrilova.onlinelibrary.controller;
 
+import com.gmail.olyagavrilova.onlinelibrary.dao.entity.Book;
 import com.gmail.olyagavrilova.onlinelibrary.exception.SearchOptionNotSupported;
 import com.gmail.olyagavrilova.onlinelibrary.service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,10 +50,10 @@ public class BookController {
     }
 
 
-    @GetMapping(value = "/catalog")
-    public ModelAndView findAllBooksForAdminPage() {
-        return findAllBooks("createBook");
-    }
+//    @GetMapping(value = "/catalog")
+//    public ModelAndView findAllBooksForAdminPage() {
+//        return findAllBooks("createBook");
+//    }
 
 
 
@@ -99,4 +108,32 @@ public class BookController {
         bookService.removeBookFromSubscriptionForUser(Long.parseLong(bookId));
         return findAllBooksAndSubscriptions();
     }
+
+
+//
+
+    @RequestMapping(value = "/catalog", method = RequestMethod.GET)
+    public ModelAndView listBooks(
+            @RequestParam("page") Optional<Integer> page,
+            @RequestParam("size") Optional<Integer> size) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+
+        Page<Book> bookPage = bookService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+ModelAndView model = new ModelAndView("createBook");
+        model.getModelMap().addAttribute("bookPage", bookPage);
+
+        int totalPages = bookPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.getModelMap().addAttribute("pageNumbers", pageNumbers);
+        }
+
+        return model;
+    }
+
+
+
 }

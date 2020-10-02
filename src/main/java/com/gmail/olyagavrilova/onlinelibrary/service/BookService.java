@@ -13,6 +13,10 @@ import com.gmail.olyagavrilova.onlinelibrary.exception.BookNotFoundException;
 import com.gmail.olyagavrilova.onlinelibrary.service.mapper.BookMapper;
 import com.gmail.olyagavrilova.onlinelibrary.service.mapper.SubscriptionMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +37,7 @@ public class BookService {
     private final SubscriptionMapper subscriptionMapper;
     private final UserRepository userRepository;
     private final SubscriptionRepository subscriptionRepository;
+
 
     public void createBook(BookDto dto) {
         bookRepository.save(bookMapper.map(dto, Book.class));
@@ -127,6 +133,25 @@ public class BookService {
         book.setYearOfPublishing(Integer.parseInt(bookYearOfPublishing));
 
         bookRepository.save(book);
+    }
+
+
+    public Page<Book> findPaginated(Pageable pageable) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Book> list = bookRepository.findAll();
+
+        if (list.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, list.size());
+            list = list.subList(startItem, toIndex);
+        }
+
+        Page<Book> bookPage = new PageImpl<Book>(list, PageRequest.of(currentPage, pageSize), bookRepository.findAll().size());
+
+        return bookPage;
     }
 
 }
