@@ -5,11 +5,6 @@
     <title>Title</title>
 </head>
 
-<script>
-    function rowClicked(value) {
-        location.href = "/users/block?userId=" + value;
-    }
-</script>
 
 
 <body>
@@ -20,59 +15,51 @@
     </form>
 </div>
 
+
 <div style="text-align: center">
-    <table style=" margin-left: auto; margin-right: auto; padding-left: 27px;padding-top: 17px;">
-        <caption th:text ="#{list.users}" style="font-size:200%;padding-top: 25px;"></caption>
-        <thead>
-        <tr>
-            <th th:text ="#{user.name}">  </th>
-            <th th:text="#{user.activity}" >  </th>
-
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="user : ${users}">
-            <td><span th:text="${user.getUsername()}" >  </span></td>
-            <td><span th:text="${user.isEnabled()}" >  </span></td>
-            <td><button type="button" th:text="#{block.user}" th:onclick="'javascript:rowClicked(\'' + ${user.getId()} + '\');'"></button></td>
-            <td><span th:hidden="true" th:text="${user.getId()}" >  </span></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<div th:if="${errorMessage}">
-    <div th:text="${errorMessage}"></div>
+    <h1 th:text="#{welcome}"></h1>
+    <h2 th:text="#{admin.page}"></h2>
 </div>
 
 
-<div style="text-align: center; padding-top: 1px">
-    <div>
-        <caption th:text ="#{create.book}" style="font-size:200%;padding-top: 25px;"></caption>
-    </div>
-    <form th:action="@{/add/book}" method="post">
-
-        <i><label for="title" th:text="#{book.title}"></label>:
-            <input type="text" id="title" name="title" autofocus="autofocus" /> </i>
-        <br />
-        <i><label for="author" th:text="#{book.author}"></label>:
-            <input type="author" id="author" name="author" /> </i>
-        <br />
-        <i><label for="publisher" th:text="#{book.publisher}"></label>:
-            <input type="text" id="publisher" name="publisher"  /> </i>
-        <br />
-        <i><label for="quantity" th:text="#{book.quantity}"></label>:
-            <input type="text" id="quantity" name="quantity"  /> </i>
-        <br />
-        <i><label for="year" th:text="#{book.year}"></label>:
-            <input type="text" id="year" name="year"  /> </i>
-        <br />
-        <br>
-        <input type="submit" th:value="#{create.book}" />
+    <form th:action="@{/users}" method="get">
+        <button type="submit" th:text="#{block.user}" style="padding-top: 10px; padding-bottom: 10px; padding-left: 25px;
+            padding-right: 25px;"></button>
     </form>
+<br>
+    <br>
+    <form th:action="@{/catalog}" method="get">
+        <button type="submit" th:text="#{book}" style="padding-top: 10px; padding-bottom: 10px; padding-left: 25px;
+            padding-right: 25px;"></button>
+    </form>
+
+
+<br>
+
+<div>
+    <h2 th:text="#{create.book}"></h2>
 </div>
+<form th:action="@{/add/book}" method="post">
 
-
+    <i><label for="title" th:text="#{book.title}" style="padding-left: 58px;"></label>:
+        <input type="text" id="title" name="title" autofocus="autofocus"/> </i>
+    <br/>
+    <i><label for="author" th:text="#{book.author}" style="padding-left: 41px;"></label>:
+        <input type="author" id="author" name="author"/> </i>
+    <br/>
+    <i><label for="publisher" th:text="#{book.publisher}" style=" padding-left: 58px;"></label>:
+        <input type="text" id="publisher" name="publisher"/> </i>
+    <br/>
+    <i><label for="quantity" th:text="#{book.quantity}" style="padding-left: 57px; margin-left: 10px;"></label>:
+        <input type="text" id="quantity" name="quantity"/> </i>
+    <br/>
+    <i><label for="year" th:text="#{book.year}"></label>:
+        <input type="text" id="year" name="year"/> </i>
+    <br/>
+    <br>
+    <input type="submit" th:value="#{create.book}" style="padding-top: 10px; padding-bottom: 10px; padding-left: 25px;
+            padding-right: 25px;"/>
+</form>
 
 </body>
 </html>

@@ -36,8 +36,6 @@
 
     <div >
         <div style="text-align: center" >
-
-
             <form th:action="@{/books/search}" method="post">
                 <span th:text="#{search.by}" style="padding-left: 20px;"></span>:
                 <select id="searchOption" name="searchOption">
@@ -68,9 +66,9 @@
         </tr>
         </thead>
         <tbody>
-<!--        <tr th:if="${books.isEmpty()}">-->
-<!--            <td colspan="2" th:text="#{no.such.book}">  </td>-->
-<!--        </tr>-->
+       <tr th:if="${books.isEmpty()}">
+           <td colspan="2" th:text="#{no.such.book}">  </td>
+       </tr>
         <tr th:each="book : ${books}">
             <td><span th:text="${book.getTitle()}" >  </span></td>
             <td><span th:text="${book.getAuthor()}" >  </span></td>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+
+<div style="float: right; padding-top: 1px">
+    <form th:action="@{/logout}" method="get">
+        <button type="submit" th:text="#{log.out}"></button>
+    </form>
+</div>
+
+<div style="text-align: center">
+<h1 th:text="#{admin.page}"></h1>
+
+<table style="text-align: left; padding-top: 1px">
+    <div>
+        <h1 th:text="#{book}" style="padding-right: 59px;"></h1>
+    </div>
+    <br>
+    <thead>
+    <tr>
+        <th th:text="#{title}"></th>
+        <th th:text="#{author}"></th>
+        <th th:text="#{publisher}"></th>
+        <th th:text="#{year.publ}"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${books.isEmpty()}">
+        <td colspan="2" th:text="#{no.such.book}"></td>
+    </tr>
+    <tr th:each="book : ${books}">
+        <td><span th:text="${book.getTitle()}" >  </span></td>
+        <td><span th:text="${book.getAuthor()}" >  </span></td>
+        <td><span th:text="${book.getPublisher()}">   </span></td>
+        <td><span th:text="${book.getYearOfPublishing()}" >  </span></td>
+        <td><span th:hidden="true" th:text="${book.getId()}">  </span></td>
+    </tr>
+
+    </tbody>
+</table>
+
+
+</div>
+</body>
+</html>

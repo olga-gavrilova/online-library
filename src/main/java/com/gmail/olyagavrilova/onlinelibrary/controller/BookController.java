@@ -26,7 +26,7 @@ public class BookController {
         if (authority.getAuthority().equals("ROLE_READER")) {
             return findAllBooksAndSubscriptionsForBooksPage();
         } else {
-            return new ModelAndView("redirect:/users");
+            return new ModelAndView("admin");
         }
     }
 
@@ -39,6 +39,16 @@ public class BookController {
     public ModelAndView findAllBooksAndSubscriptionsForBooksPage() {
         return findAllBooksAndSubscriptions();
     }
+
+
+    @GetMapping(value = "/catalog")
+    public ModelAndView findAllBooksForAdminPage() {
+        return findAllBooks("createBook");
+    }
+
+
+
+
 
     private ModelAndView findAllBooks(String viewName) {
         ModelAndView modelAndView = new ModelAndView(viewName);

@@ -18,7 +18,7 @@ private final BookService bookService;
 
     @GetMapping(value = "/users")
     public ModelAndView findAllUsersForAdminPage() {
-        ModelAndView modelAndView= new ModelAndView("admin");
+        ModelAndView modelAndView= new ModelAndView("modifyUser");
         modelAndView.getModelMap().addAttribute("users", service.findAllReaders());
         return modelAndView;
     }
@@ -26,6 +26,7 @@ private final BookService bookService;
     @GetMapping(value = "/users/block")
     public ModelAndView changeEnableStatusOfUser(@RequestParam String userId) {
         service.changeUsersEnable(Integer.parseInt(userId));
+
         return findAllUsersForAdminPage();
     }
 
@@ -37,7 +38,6 @@ private final BookService bookService;
                 || StringUtils.isEmpty(quantity) || StringUtils.isEmpty(year)) {
             ModelAndView modelAndView = new ModelAndView("admin");
             modelAndView.getModelMap().addAttribute("errorMessage", "fill.form");
-            modelAndView.getModelMap().addAttribute("users", service.findAllReaders());
             return modelAndView;
         }
 
@@ -46,12 +46,6 @@ private final BookService bookService;
         ModelAndView modelAndView = new ModelAndView("admin");
         modelAndView.getModelMap().addAttribute("errorMessage", "book.created");
 
-        modelAndView.getModelMap().addAttribute("users", service.findAllReaders());
-
         return modelAndView;
     }
-
-
-
-
 }

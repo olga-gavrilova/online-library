@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<script>
+    function rowClicked(value) {
+        location.href = "/users/block?userId=" + value;
+    }
+</script>
+
+
+<body>
+
+<div style="float: right; padding-top: 1px">
+    <form th:action="@{/logout}" method="get">
+        <button type="submit" th:text="#{log.out}"></button>
+    </form>
+</div>
+
+
+<div style="text-align: center">
+    <h1 th:text="#{admin.page}"></h1>
+</div>
+
+
+<div style="text-align: center">
+    <table style=" margin-left: auto; margin-right: auto; padding-left: 27px;padding-top: 17px;">
+        <caption th:text ="#{list.users}" style="font-size:200%;padding-top: 25px;"></caption>
+        <thead>
+        <tr>
+            <th th:text ="#{user.name}">  </th>
+            <th th:text="#{user.activity}" >  </th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td><span th:text="${user.getUsername()}" >  </span></td>
+            <td><span th:text="${user.isEnabled()}" >  </span></td>
+            <td><button type="button" th:text="#{block.user}" th:onclick="'javascript:rowClicked(\'' + ${user.getId()} + '\');'"></button></td>
+            <td><span th:hidden="true" th:text="${user.getId()}" >  </span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:if="${errorMessage}">
+    <div th:text="${errorMessage}"></div>
+</div>
+
+</div>
+</body>
+</html>
