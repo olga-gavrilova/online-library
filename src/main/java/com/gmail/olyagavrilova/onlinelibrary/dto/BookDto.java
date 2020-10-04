@@ -1,19 +1,18 @@
-package com.gmail.olyagavrilova.onlinelibrary.model;
+package com.gmail.olyagavrilova.onlinelibrary.dto;
 
 import lombok.Data;
 
-
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 @Data
-public class SubscriptionDto {
+public class BookDto {
 
-    private long bookId;
+    private int id;
 
     @NotBlank
-    private String  bookTitle;
+    private String  title;
 
     @NotBlank
     private String  author;
@@ -22,7 +21,8 @@ public class SubscriptionDto {
     private String  publisher;
 
     @NotNull
-    private LocalDate dateOfReturn;
+    @Min(value = 1)
+    private int quantity;
 
-
+    private int yearOfPublishing;
 }

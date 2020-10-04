@@ -1,73 +1,96 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 
-<script type="text/javascript">
-    function changeLocale() {
-        console.log("onChange")
-        var selectedOption = document.getElementById("locales").value;
-        if (selectedOption !== '') {
-            window.location.replace('?lang=' + selectedOption);
-        }
-    }
-
-</script>
-
 <body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" th:text="#{welcome}"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/login" th:text="#{login}"></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/registration" th:text="#{register}"></a>
+            </li>
+            <li class="nav-item active dropdown">
+                <a th:text="#{change}" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/?lang=en" th:text="#{lang.en}"></a>
+                    <a class="dropdown-item" href="/?lang=ua" th:text="#{lang.ua}"></a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<h4 th:text="#{book}" style="text-align: center;"></h4>
+
 <div>
-    <div style="float: left; padding-top: 1px">
-        <span th:text="#{change}" style="padding-left: 20px;"></span>:
-        <select id="locales" th:onchange="changeLocale()">
-            <option value=""></option>
-            <option value="en" th:text="#{lang.en}"></option>
-            <option value="ua" th:text="#{lang.ua}"></option>
-        </select>
-    </div>
-
-    <div style="float: left; padding-left: 10px">
-        <form th:action="@{/registration}" method="get">
-            <button type="submit" th:text="#{register}"></button>
-        </form>
-    </div>
-
-    <div style="float: left; padding-left: 10px">
-        <form th:action="@{/login}" method="get">
-            <button type="submit" th:text="#{login}">Log In</button>
-        </form>
-    </div>
-
-    <br>
     <div style="text-align: center">
-        <h1 th:text="#{welcome}"></h1>
-    </div>
+        <table class="table">
+
+            <div style="text-align: center">
+                <thead>
+                <tr>
+                    <th th:text="#{title}"></th>
+                    <th th:text="#{author}"></th>
+                    <th th:text="#{publisher}"></th>
+                    <th th:text="#{year.publ}"></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="book, iStat : ${bookPage.content}">
+                    <td><span th:text="${book.getTitle()}" >  </span></td>
+                    <td><span th:text="${book.getAuthor()}" >  </span></td>
+                    <td><span th:text="${book.getPublisher()}">   </span></td>
+                    <td><span th:text="${book.getYearOfPublishing()}" >  </span></td>
+                    <td><span th:hidden="true" th:text="${book.getId()}">  </span></td>
+                </tr>
 
 
-    <div style="text-align: center">
-        <table style=" margin-left: auto; margin-right: auto;">
-            <thead>
-            <tr>
-                <th th:text ="#{title}">  </th>
-                <th th:text="#{author}" >  </th>
-                <th th:text ="#{publisher}">  </th>
-                <th th:text="#{year.publ}" >  </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:if="${books.isEmpty()}">
-                <td colspan="2" th:text="#{no.such.book}">  </td>
-            </tr>
-            <tr th:each="book : ${books}">
-                <td><span th:text="${book.getTitle()}" >  </span></td>
-                <td><span th:text="${book.getAuthor()}" >  </span></td>
-                <td><span th:text="${book.getPublisher()}" >  </span></td>
-                <td><span th:text="${book.getYearOfPublishing()}" >  </span></td>
-            </tr>
-            </tbody>
+                </tbody>
+            </div>
         </table>
     </div>
 </div>
+
+<div th:if="${bookPage.totalPages > 0}" style="padding-left: 45%;">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li th:each="pageNumber : ${pageNumbers}" class="page-item">
+                <a class="page-link text-dark"
+                   th:href="@{/books(size=${bookPage.size}, page=${pageNumber})}"
+                   th:text="${pageNumber}"></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
 </body>
 </html>

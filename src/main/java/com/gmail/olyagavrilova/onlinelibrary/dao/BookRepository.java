@@ -11,8 +11,6 @@ import java.util.Optional;
 
 public interface BookRepository  extends CrudRepository<Book, Long>  {
 
-
-
     List<Book> findAll();
 
     List<Book> findBooksByAuthorIsLike(String author);

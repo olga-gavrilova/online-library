@@ -1,7 +1,7 @@
 package com.gmail.olyagavrilova.onlinelibrary.service.mapper;
 
 import com.gmail.olyagavrilova.onlinelibrary.dao.entity.Subscription;
-import com.gmail.olyagavrilova.onlinelibrary.model.SubscriptionDto;
+import com.gmail.olyagavrilova.onlinelibrary.dto.SubscriptionDto;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.converter.ConverterFactory;

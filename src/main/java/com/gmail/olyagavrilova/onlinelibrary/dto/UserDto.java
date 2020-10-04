@@ -1,4 +1,4 @@
-package com.gmail.olyagavrilova.onlinelibrary.model;
+package com.gmail.olyagavrilova.onlinelibrary.dto;
 
 import lombok.Data;
 

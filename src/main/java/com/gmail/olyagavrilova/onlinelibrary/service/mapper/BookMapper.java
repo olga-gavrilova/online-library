@@ -1,7 +1,7 @@
 package com.gmail.olyagavrilova.onlinelibrary.service.mapper;
 
 import com.gmail.olyagavrilova.onlinelibrary.dao.entity.Book;
-import com.gmail.olyagavrilova.onlinelibrary.model.BookDto;
+import com.gmail.olyagavrilova.onlinelibrary.dto.BookDto;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.ConfigurableMapper;

@@ -1,8 +1,6 @@
 package com.gmail.olyagavrilova.onlinelibrary.dao.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;

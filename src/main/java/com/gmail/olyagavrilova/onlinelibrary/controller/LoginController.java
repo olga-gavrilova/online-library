@@ -19,19 +19,30 @@ public class LoginController {
 
     @GetMapping("/login")
     public ModelAndView getLoginPage() {
-        return new ModelAndView("loginForm");
+        return new ModelAndView("loginView");
+    }
+
+    @GetMapping("/loggedIn")
+    public ModelAndView getSuccessfulLoginPage() {
+        GrantedAuthority authority = SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next();
+
+        if (authority.getAuthority().equals("ROLE_READER")) {
+            return new ModelAndView("redirect:/reader/books");
+        } else {
+            return new ModelAndView("redirect:/admin/books");
+        }
     }
 
     @GetMapping("/registration")
     public ModelAndView getRegisterPage() {
-        return new ModelAndView("registrationForm");
+        return new ModelAndView("registrationView");
     }
 
     @PostMapping("/registration")
     public ModelAndView login(@RequestParam String username, @RequestParam String password, @RequestParam String role) {
 
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password) || StringUtils.isEmpty(role)) {
-            ModelAndView modelAndView = new ModelAndView("registrationForm");
+            ModelAndView modelAndView = new ModelAndView("registrationView");
             modelAndView.getModelMap().addAttribute("errorMessage", "fill.form");
             return modelAndView;
         }
@@ -41,9 +52,9 @@ public class LoginController {
         ModelAndView modelAndView;
 
         if (role.equalsIgnoreCase("reader")) {
-            modelAndView = new ModelAndView("redirect:/books");
+            modelAndView = new ModelAndView("redirect:/reader/books");
         } else {
-            modelAndView = new ModelAndView("redirect:/users");
+            modelAndView = new ModelAndView("redirect:/admin/books");
         }
 
         return modelAndView;
