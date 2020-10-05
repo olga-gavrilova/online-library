@@ -26,6 +26,8 @@ public class LoginController {
     public ModelAndView getSuccessfulLoginPage() {
         GrantedAuthority authority = SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next();
 
+
+
         if (authority.getAuthority().equals("ROLE_READER")) {
             return new ModelAndView("redirect:/reader/books");
         } else {
